@@ -10,10 +10,21 @@ import png6 from './jpg/6.png'
 
 class Hangman extends Component {
     static defaultProps = {
+        miss: 6,
         images:[png0, png1, png2, png3, png4, png5, png6]
     }
+    constructor(props) {
+        super(props)
+        this.state = {wrong:0,guessed:new Set(),word:'something'}
+    }
     render() {
-        return <img src={this.props.images[3]} alt='png0'/>
+        return (
+            <div className='Hangman'>
+                <img src={this.props.images[3]} alt='png0'/>
+                <p className='Hangman-word'>{this.state.word}</p>
+                <p className='Hangman-btns'>btns</p>
+            </div>
+        )
     }
 }
 
