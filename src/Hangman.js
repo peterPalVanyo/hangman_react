@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import {randomWord} from './words'
 import "./Hangman.css";
 import png0 from "./jpg/0.png";
 import png1 from "./jpg/1.png";
@@ -15,7 +16,7 @@ class Hangman extends Component {
   };
   constructor(props) {
     super(props);
-    this.state = { wrong: 0, guessed: new Set(), word: "something" };
+    this.state = { wrong: 0, guessed: new Set(), word: randomWord() };
     this.handleGuess = this.handleGuess.bind(this);
   }
   presentWord() {
@@ -43,16 +44,17 @@ class Hangman extends Component {
     ));
   }
   render() {
-      const inGame = this.props.chance > this.state.wrong
+    const inGame = this.props.chance > this.state.wrong;
+    const altText = `Have ${this.props.chance - this.state.wrong} life left`;
     return (
       <div className="Hangman">
-        <img src={this.props.images[this.state.wrong]} alt="png" />
+        <img src={this.props.images[this.state.wrong]} alt={altText} />
         <p className="Hangman-wrong">Wrong guesses: {this.state.wrong}</p>
-        <p className="Hangman-word">{!inGame? this.state.word: this.presentWord()}</p>
+        <p className="Hangman-word">
+          {!inGame ? this.state.word : this.presentWord()}
+        </p>
         <p className="Hangman-btns">
-          {inGame
-            ? this.generateButtons()
-            : `You lose: ${this.state.word}`}
+          {inGame ? this.generateButtons() : `You lose: ${this.state.word}`}
         </p>
       </div>
     );
