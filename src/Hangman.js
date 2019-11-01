@@ -45,7 +45,8 @@ class Hangman extends Component {
   render() {
     return (
       <div className="Hangman">
-        <img src={this.props.images[3]} alt="png0" />
+        <img src={this.props.images[this.state.wrong]} alt="png0" />
+        <p className='Hangman-wrong'>Wrong guesses: {this.state.wrong}</p>
         <p className="Hangman-word">{this.presentWord()}</p>
         <p className="Hangman-btns">{this.generateButtons()}</p>
       </div>
