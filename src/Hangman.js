@@ -18,6 +18,12 @@ class Hangman extends Component {
     super(props);
     this.state = { wrong: 0, guessed: new Set(), word: randomWord() };
     this.handleGuess = this.handleGuess.bind(this);
+    this.reset = this.reset.bind(this)
+  }
+  reset() {
+    this.setState({
+        wrong:0, guessed: new Set(), word: randomWord()
+    })
   }
   presentWord() {
     return this.state.word
@@ -33,6 +39,7 @@ class Hangman extends Component {
   }
   generateButtons() {
     return "abcdefghijklmnopqrstuvwxyz".split("").map(letter => (
+    <span className='key' key={letter}>
       <button
         key={letter}
         value={letter}
@@ -41,11 +48,16 @@ class Hangman extends Component {
       >
         {letter}
       </button>
+    </span>
     ));
   }
   render() {
     const inGame = this.props.chance > this.state.wrong;
+    const isWinner = this.presentWord().join('') === this.state.word
     const altText = `Have ${this.props.chance - this.state.wrong} life left`;
+    let gameState = this.generateButtons()
+    if(isWinner) gameState = 'You win!'
+    if(!inGame) gameState = `You lose: ${this.state.word}`
     return (
       <div className="Hangman">
         <img src={this.props.images[this.state.wrong]} alt={altText} />
@@ -54,8 +66,9 @@ class Hangman extends Component {
           {!inGame ? this.state.word : this.presentWord()}
         </p>
         <p className="Hangman-btns">
-          {inGame ? this.generateButtons() : `You lose: ${this.state.word}`}
+          {gameState}
         </p>
+        <button onClick={this.reset} className='Hangman-reset'>Reset</button>
       </div>
     );
   }
