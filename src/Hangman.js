@@ -43,12 +43,17 @@ class Hangman extends Component {
     ));
   }
   render() {
+      const inGame = this.props.chance > this.state.wrong
     return (
       <div className="Hangman">
-        <img src={this.props.images[this.state.wrong]} alt="png0" />
-        <p className='Hangman-wrong'>Wrong guesses: {this.state.wrong}</p>
-        <p className="Hangman-word">{this.presentWord()}</p>
-        <p className="Hangman-btns">{this.generateButtons()}</p>
+        <img src={this.props.images[this.state.wrong]} alt="png" />
+        <p className="Hangman-wrong">Wrong guesses: {this.state.wrong}</p>
+        <p className="Hangman-word">{!inGame? this.state.word: this.presentWord()}</p>
+        <p className="Hangman-btns">
+          {inGame
+            ? this.generateButtons()
+            : `You lose: ${this.state.word}`}
+        </p>
       </div>
     );
   }
